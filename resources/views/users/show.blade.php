@@ -9,9 +9,16 @@
     <li>{{ $user->avatar->avatar }}</li>
     <li>{{ $user->avatar->telefono }}</li>
 </ul>
+<form action="{{ route('users.destroy', $user->id) }}" method="post">
+    @csrf
+    @method('DELETE')
+    <input type="submit" value="Cancella Utente">
+</form>
 <h3>Post che ha scritto</h3>
 @foreach ($user->posts as $post)
-    <div><p>{{ $post->title }}</p></div>
-    <div><p>{{ $post->body }}</p></div>
+    <div>
+        <p>Titolo:{{ $post->title }}</p>
+        <p>Post:{{ $post->body }}</p>
+    </div>
 @endforeach
 @endsection

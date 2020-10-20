@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Post;
+use App\User;
 
 class PostController extends Controller
 {
@@ -13,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::orderBy('id','desc')->get();
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -23,7 +26,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all();
+        return view('posts.create', compact('users'));
     }
 
     /**
@@ -34,7 +38,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $request->validate([
+            'title' => 'required|min:5|max:100',
+            'body' => 'required|min:5|max:700',
+            'user_id' => 'required|numeric|exists:users,id'
+        ]);
+        $postNew = new Post();
+        $postNew->fill($data);
+        $saved = $postNew->save();
+        if($saved){
+            return redirect()->route('posts.index')
+            ->with('status', 'Hai inserito correttamente il post');
+        }
     }
 
     /**
