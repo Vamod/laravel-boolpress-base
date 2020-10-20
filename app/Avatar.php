@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Avatar extends Model
 {
+    // per poterlo togliere dalla tabella va impostato a false
     public $timestamps = false;
+    // $fillable sono i campi della tabella che posso andare a modificare
     protected $fillable = [
         'telefono', 'avatar', 'user_id'
     ];
